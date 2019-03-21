@@ -10,9 +10,15 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     var todoArray : [String] = [String]()
+    // an interface to the users default database where you store key value pairs persistently across launches od your app
+//    .standard returns the shared default object
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            todoArray = items
+        }
     }
     //MARK: Table View Data Source Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,6 +52,7 @@ class TodoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add item", style: .default) { (action) in
             self.todoArray.append(textField.text!)
+            self.defaults.set(self.todoArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
             }
 //        This executes as soon as the add button is pressed once
