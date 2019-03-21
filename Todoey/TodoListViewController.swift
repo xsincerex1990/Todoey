@@ -26,6 +26,8 @@ class TodoListViewController: UITableViewController {
         return cell
     }
     //    MARK: Table View Delegate Methods
+//    when a user clicks the item deselect to de-highlight grayish section
+//    also check to see if check is showing
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
          
@@ -35,6 +37,27 @@ class TodoListViewController: UITableViewController {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
     }
+    //    MARK: Add new item button
 
+    @IBAction func addBarButtonPressed(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+//        create alert controller
+        let alert = UIAlertController(title: "Add new to-do item.", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add item", style: .default) { (action) in
+            let stringField = textField.text!
+            self.todoArray.append(stringField)
+            self.tableView.reloadData()
+            print(self.todoArray)
+            }
+//        This executes as soon as the add button is pressed once
+        alert.addTextField { (alertTextField) in
+            textField = alertTextField
+        }
+//        add action to alert
+        alert.addAction(action)
+//        show the alert
+        present(alert, animated: true, completion: nil)
+    }
 }
 
